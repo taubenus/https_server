@@ -17,3 +17,4 @@ The setup script does:
 
 * default directory is the users home directory
 * default port is 4443
+* the local URL is copied to the clipboard
