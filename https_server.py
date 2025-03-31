@@ -6,6 +6,13 @@ import socket
 import pyperclip
 
 def get_local_ip():
+    """
+    The function `get_local_ip` retrieves the actual local IP address used to connect to the network by
+    connecting to an external address.
+    :return: The function `get_local_ip()` will return the actual local IP address used to connect to
+    the network if successful. If an exception occurs during the process, it will return the loopback
+    address "127.0.0.1".
+    """
     """Retrieve the actual local IP address used to connect to the network."""
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
         try:
@@ -16,6 +23,11 @@ def get_local_ip():
             return "127.0.0.1"  # Fallback if detection fails
 
 def parse_args():
+    """
+    The function `parse_args` defines a command-line argument parser for a simple HTTPS server.
+    :return: The function `parse_args()` is returning the parsed arguments from the command line using
+    the `argparse` module in Python.
+    """
     parser = argparse.ArgumentParser(description='a simple https server')
     parser.add_argument('--directory', '-d', default=os.path.expanduser("~"), help='Specify the directory to serve')
     parser.add_argument('--port', '-p', type=int, default=4443, help='Specify the port number')
@@ -23,6 +35,17 @@ def parse_args():
     return args
 
 def init_server(args):
+    """
+    The `init_server` function initializes an HTTP server with SSL/TLS support based on the provided
+    arguments.
+    
+    :param args: The `args` parameter in the `init_server` function is expected to be a dictionary-like
+    object containing the CLI parameters provided with the `https` command. The possible options that
+    can be included in the `args` dictionary are `--directory` and `--port`
+    :return: The function `init_server` is returning an HTTP server instance that is configured to serve
+    files from a specified directory over HTTPS.
+    """
+
     os.chdir(args.directory)
     server_address = ('0.0.0.0', args.port)
     httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
