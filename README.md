@@ -13,7 +13,7 @@ The setup script does:
 * add the alias "https" to ~/.bashrc
 
 ### run
-`https [-d, --directory | -p, --port]`
+`https [-h] [-d, --directory DIRECTORY] [-p, --port PORT]`
 
 * default directory is the users home directory
 * default port is 4443
