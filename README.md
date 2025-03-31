@@ -9,7 +9,7 @@ Run a small and quick https server for a local network.
 `source ~/.bashrc`
 
 The setup script does:
-* generate an ssl certificate (cert.pem) and private key (key.pem) in the script directory
+* generate an ssl certificate (`cert.pem`) and private key (`key.pem`) in the script directory
 * add the alias "https" to ~/.bashrc
 
 ### run:
