@@ -46,9 +46,24 @@ def init_server(args):
     files from a specified directory over HTTPS.
     """
 
-    os.chdir(args.directory)
+    try:
+        os.chdir(args.directory)
+    except FileNotFoundError:
+        print(f"Error. The path '{args.directory}' does not exist.")
+        return None
+
     server_address = ('0.0.0.0', args.port)
-    httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
+    try:
+        httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
+    except OverflowError:
+        print('Error. The port number must be 0-65535.')
+        return None
+    except PermissionError:
+        print(f'Error. Maybe port {args.port} is already in use?')
+        return None
+    except Exception as error:
+        print(f'{type(error).__name__}: {error}')
+        return None
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     context.load_cert_chain(certfile=cert_path, keyfile=key_path)
     httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
@@ -60,10 +75,10 @@ if __name__ == '__main__':
     key_path = os.path.join(script_dir, 'key.pem')
 
     server_args = parse_args()
-    
-    httpd = init_server(server_args)
-
-    local_ip = get_local_ip()
+    if (httpd:=init_server(server_args)):
+        local_ip = get_local_ip()
+    else:
+        exit(1)
     
     server_url = f"https://{local_ip}:{server_args.port}"
 
