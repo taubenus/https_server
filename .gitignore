@@ -1,1 +1,3 @@
-*.pem
+# ignore ssl key and certificate
+cert.pem
+key.pem
