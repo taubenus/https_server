@@ -5,6 +5,13 @@ import argparse
 import socket
 import pyperclip
 
+class QuietSimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def handle(self):
+        try:
+            super().handle()
+        except ssl.SSLEOFError:
+            pass
+
 def get_local_ip():
     """
     The function `get_local_ip` retrieves the actual local IP address used to connect to the network by
@@ -54,7 +61,7 @@ def init_server(args):
 
     server_address = ('0.0.0.0', args.port)
     try:
-        httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
+        httpd = http.server.HTTPServer(server_address, QuietSimpleHTTPRequestHandler)
     except OverflowError:
         print('Error. The port number must be 0-65535.')
         return None
