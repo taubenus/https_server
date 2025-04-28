@@ -1,5 +1,5 @@
 # https_server
-Run a small and quick https server for a local network.
+Run a small and quick https server for a local network. It uses the http.server python module.
 
 ### setup
 `chmod +x setup.sh`
